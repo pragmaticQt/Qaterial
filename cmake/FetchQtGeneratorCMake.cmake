@@ -1,6 +1,6 @@
 include(FetchContent)
 
-set(QTGENERATORCMAKE_REPOSITORY "https://hub.fastgit.org/OlivierLDff/QtGeneratorCMake.git" CACHE STRING "QtGeneratorCMake repository, can be a local URL")
+set(QTGENERATORCMAKE_REPOSITORY "https://github.com/OlivierLDff/QtGeneratorCMake.git" CACHE STRING "QtGeneratorCMake repository, can be a local URL")
 set(QTGENERATORCMAKE_TAG "master" CACHE STRING "QtGeneratorCMake git tag")
 
 FetchContent_Declare(

@@ -1,6 +1,6 @@
 include(FetchContent)
 
-set(QOLM_REPOSITORY "https://hub.fastgit.org/OlivierLDff/QOlm.git" CACHE STRING "QOlm repository url")
+set(QOLM_REPOSITORY "https://github.com/OlivierLDff/QOlm.git" CACHE STRING "QOlm repository url")
 set(QOLM_TAG master CACHE STRING "QOlm git tag")
 
 FetchContent_Declare(

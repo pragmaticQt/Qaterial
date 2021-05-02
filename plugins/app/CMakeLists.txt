@@ -14,7 +14,7 @@ add_executable(
 )
 # Directories where Qt Creator can find QML files.
 # (Not needed for builds, but makes Qt Creator code completion happy.)
-list(APPEND QML_IMPORT_PATH ${CMAKE_CURRENT_BINARY_DIR}/plugins)
+list(APPEND QML_IMPORT_PATH ${CMAKE_CURRENT_BINARY_DIR}/../../plugins)
 
 # Prevent adding duplicate values at each run of CMake.
 list(REMOVE_DUPLICATES QML_IMPORT_PATH)

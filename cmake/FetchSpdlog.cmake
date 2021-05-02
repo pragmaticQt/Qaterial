@@ -1,6 +1,6 @@
 include(FetchContent)
 
-set(SPDLOG_REPOSITORY "https://hub.fastgit.org/gabime/spdlog" CACHE STRING "spdlog repository url")
+set(SPDLOG_REPOSITORY "https://github.com/gabime/spdlog" CACHE STRING "spdlog repository url")
 set(SPDLOG_TAG "v1.x" CACHE STRING "spdlog git tag")
 
 FetchContent_Declare(
