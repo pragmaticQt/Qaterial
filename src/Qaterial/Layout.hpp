@@ -121,6 +121,12 @@ public:
     };
     Q_ENUM(LayoutFill);
 
+    enum Flow
+    {
+        LeftToRight = 0,
+        TopToBottom
+    };
+    Q_ENUM(Flow)
 public:
     static constexpr qreal EXTRA_LARGE_BREAKPOINT() { return 1280.f; }
     static constexpr qreal LARGE_BREAKPOINT() { return 960.f; }
@@ -161,7 +167,7 @@ private:
     // - Layout.Small
     // - Layout.ExtraSmall
     // This property is evaluated each time width/height/padding/spacing/flow change
-    QATERIAL_PROPERTY_RO(int, type, Type);
+    QATERIAL_PROPERTY_RO(LayoutBreakpoint, type, Type);
 
     QATERIAL_PROPERTY(qreal, width, Width);
     QATERIAL_PROPERTY(qreal, height, Height);
@@ -174,10 +180,10 @@ private:
     QATERIAL_PROPERTY(qreal, bottomPadding, BottomPadding);
 
     // Qt.LeftToRight | Qt.RightToLeft
-    QATERIAL_PROPERTY(int, layoutDirection, LayoutDirection);
+    QATERIAL_PROPERTY(Qt::LayoutDirection, layoutDirection, LayoutDirection);
 
     // Flow.LeftToRight | Flow.TopToBottom
-    QATERIAL_PROPERTY(int, flow, Flow);
+    QATERIAL_PROPERTY(Flow, flow, Flow);
 
     Q_PROPERTY(QQmlListReference items READ items WRITE setItems);
     Q_PROPERTY(int columns READ columns WRITE setUserColumns RESET resetUserColumns NOTIFY columnsChanged)

@@ -3,10 +3,12 @@ set(QT_BIN ${CMAKE_PREFIX_PATH}/bin CACHE STRING "Qt installation bin path")
 
 message(STATUS "------ plugin Configuration ------")
 
-message(STATUS "QATERIAL_ROOT_DIR        : ${QATERIAL_ROOT_DIR}")
-message(STATUS "QATERIAL_HEADER_DIR      : ${QATERIAL_HEADER_DIR}")
-message(STATUS "QATERIAL_SOURCE_DIR      : ${QATERIAL_SOURCE_DIR}")
-message(STATUS "QT_BIN                   : ${QT_BIN}")
+message(STATUS "QATERIAL_ROOT_DIR          : ${QATERIAL_ROOT_DIR}")
+message(STATUS "QATERIAL_HEADER_DIR        : ${QATERIAL_HEADER_DIR}")
+message(STATUS "QATERIAL_SOURCE_DIR        : ${QATERIAL_SOURCE_DIR}")
+message(STATUS "QATERIAL_PLUGINS_BUILD_DIR : ${QATERIAL_PLUGINS_BUILD_DIR}")
+message(STATUS "QT_BIN                     : ${QT_BIN}")
+
 
 message(STATUS "------ plugin End Configuration ------")
 
@@ -20,6 +22,17 @@ add_library( qaterialplugin SHARED
     ${QATERIAL_SOURCE_DIR}/IconLabelImpl.cpp
     ${QATERIAL_SOURCE_DIR}/IconLabelPositionner.hpp
     ${QATERIAL_SOURCE_DIR}/IconLabelPositionner.cpp
+
+    ${QATERIAL_SOURCE_DIR}/ColorTheme.hpp
+    ${QATERIAL_SOURCE_DIR}/ColorTheme.cpp
+    ${QATERIAL_SOURCE_DIR}/TextTheme.hpp
+    ${QATERIAL_SOURCE_DIR}/TextTheme.cpp
+    ${QATERIAL_SOURCE_DIR}/Theme.hpp
+    ${QATERIAL_SOURCE_DIR}/Theme.cpp
+
+    ${QATERIAL_SOURCE_DIR}/Layout.hpp
+    ${QATERIAL_SOURCE_DIR}/Layout.cpp
+
     ${QATERIAL_SOURCE_DIR}/Clipboard.hpp
     ${QATERIAL_SOURCE_DIR}/Clipboard.cpp
     ${QATERIAL_SOURCE_DIR}/Version.hpp
