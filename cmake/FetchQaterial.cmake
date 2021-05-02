@@ -1,6 +1,6 @@
 include(FetchContent)
 
-set(QATERIAL_REPOSITORY "https://github.com/OlivierLDff/Qaterial.git" CACHE STRING "Qaterial repository url")
+set(QATERIAL_REPOSITORY "https://hub.fastgit.org/OlivierLDff/Qaterial.git" CACHE STRING "Qaterial repository url")
 set(QATERIAL_TAG master CACHE STRING "Qaterial git tag")
 
 FetchContent_Declare(

@@ -31,6 +31,7 @@ set(QATERIAL_TARGET ${QATERIAL_PROJECT} CACHE STRING "Target Name")
 set(QATERIAL_FOLDER_PREFIX ${QATERIAL_PROJECT} CACHE STRING "Prefix folder for all Qaterial generated targets in generated project (only decorative)")
 set(QATERIAL_BUILD_SHARED OFF CACHE BOOL "Build as a shared library")
 set(QATERIAL_ENABLE_TESTS OFF CACHE BOOL "Build Qaterial test executable")
+set(QATERIAL_ENABLE_PLUGINS ON CACHE BOOL "Build Qaterial plugin")
 set(QATERIAL_ENABLE_PCH ON CACHE BOOL
  "Enable precompile headers support for 'Qaterial'. \"
  Only work if CMake support 'target_precompile_headers'. \"
@@ -66,8 +67,12 @@ message(STATUS "QATERIAL_ENABLE_ROBOTOMONO      : ${QATERIAL_ENABLE_ROBOTOMONO}"
 message(STATUS "QATERIAL_ENABLE_LATO            : ${QATERIAL_ENABLE_LATO}")
 
 message(STATUS "QATERIAL_ENABLE_TESTS           : ${QATERIAL_ENABLE_TESTS}")
-
+message(STATUS "QATERIAL_ENABLE_PLUGINS         : ${QATERIAL_ENABLE_PLUGINS}")
 message(STATUS "------ ${QATERIAL_TARGET} End Configuration ------")
+
+set(QATERIAL_ROOT_DIR   ${CMAKE_CURRENT_LIST_DIR})
+set(QATERIAL_HEADER_DIR ${QATERIAL_ROOT_DIR}/src)
+set(QATERIAL_SOURCE_DIR ${QATERIAL_ROOT_DIR}/src/Qaterial)
 
 # ───── QT DEPENDENCIES ─────
 
@@ -99,8 +104,6 @@ set(QATERIAL_ICONS_SRC_FILE "${QATERIAL_ICONS_OUTPUT_FOLDER}/Qaterial/Icons.cpp"
 qaterial_generate_icons_class(${QATERIAL_ICONS_CLASS_FILE} ${QATERIAL_ICONS_SRC_FILE})
 
 # ───── QML SOURCES ─────
-
-set(QATERIAL_SOURCE_DIR src/Qaterial)
 
 set(QATERIAL_DISPLAY_SRCS
   ${QATERIAL_ICONS_CLASS_FILE}
@@ -237,4 +240,10 @@ endif()
 if(QATERIAL_ENABLE_TESTS)
   enable_testing()
   add_subdirectory(tests)
+endif()
+
+# ───── QATERIAL PLUGINS ─────
+
+if(QATERIAL_ENABLE_PLUGINS)
+  add_subdirectory(plugins)
 endif()

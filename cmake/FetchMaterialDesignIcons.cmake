@@ -1,6 +1,6 @@
 include(FetchContent)
 
-set(MATERIALDESIGNICONS_REPOSITORY "https://github.com/OlivierLDff/MaterialDesignSvgo" CACHE STRING "MaterialDesignIcons repository url")
+set(MATERIALDESIGNICONS_REPOSITORY "https://hub.fastgit.org/OlivierLDff/MaterialDesignSvgo" CACHE STRING "MaterialDesignIcons repository url")
 set(MATERIALDESIGNICONS_TAG master CACHE STRING "MaterialDesignIcons git tag")
 
 FetchContent_Declare(
