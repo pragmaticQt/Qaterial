@@ -65,13 +65,14 @@ target_compile_features(
 )
 
 target_link_libraries( qaterialplugin PUBLIC
+  spdlog
   Qt::Core
   Qt::Gui
   Qt::Svg
   Qt::Xml
   Qt::Qml
   Qt::Quick
-  Qt::QuickControls2  
+  Qt::QuickControls2
 )
 
 # During plugin searching Qt will be looking for 'qmldir' file
