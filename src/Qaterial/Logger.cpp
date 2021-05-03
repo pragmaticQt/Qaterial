@@ -26,7 +26,6 @@
 
 // Library Headers
 #include <Qaterial/Logger.hpp>
-#include <spdlog/sinks/stdout_color_sinks.h>
 
 // Qt Headers
 #include <QString>
@@ -88,17 +87,3 @@ void Logger::info(QString s) { QATERIAL->info(s.toStdString()); }
 void Logger::warn(QString s) { QATERIAL->warn(s.toStdString()); }
 
 void Logger::error(QString s) { QATERIAL->error(s.toStdString()); }
-
-static void registerCoutSink()
-{
-    // Create a stdout sink
-    const auto stdoutSink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
-    // Redirect qaterial to stdout
-    qaterial::Logger::registerSink(stdoutSink);
-
-    // optionnal: Enable debug level
-    stdoutSink->set_level(spdlog::level::debug);
-    qaterial::Logger::QATERIAL->set_level(spdlog::level::debug);
-}
-
-Q_COREAPP_STARTUP_FUNCTION(registerCoutSink)

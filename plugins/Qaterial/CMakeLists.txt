@@ -1,4 +1,4 @@
-
+set(QATERIAL_PLUGIN_TARGET qaterialplugin CACHE STRING "qaterialplugin")
 set(QT_BIN ${CMAKE_PREFIX_PATH}/bin CACHE STRING "Qt installation bin path")
 
 message(STATUS "------ plugin Configuration ------")
@@ -13,9 +13,9 @@ message(STATUS "QT_BIN                     : ${QT_BIN}")
 message(STATUS "------ plugin End Configuration ------")
 
 
-add_library( qaterialplugin SHARED
-    ${QATERIAL_SOURCE_DIR}/Logger.hpp
-    ${QATERIAL_SOURCE_DIR}/Logger.cpp
+add_library( ${QATERIAL_PLUGIN_TARGET} SHARED
+    ${QATERIAL_ICONS_CLASS_FILE}
+    ${QATERIAL_ICONS_SRC_FILE}
     ${QATERIAL_SOURCE_DIR}/IconDescription.hpp
     ${QATERIAL_SOURCE_DIR}/IconDescription.cpp
     ${QATERIAL_SOURCE_DIR}/IconLabelImpl.hpp
@@ -33,6 +33,8 @@ add_library( qaterialplugin SHARED
     ${QATERIAL_SOURCE_DIR}/Layout.hpp
     ${QATERIAL_SOURCE_DIR}/Layout.cpp
 
+    ${QATERIAL_SOURCE_DIR}/Logger.hpp
+    ${QATERIAL_SOURCE_DIR}/Logger.cpp
     ${QATERIAL_SOURCE_DIR}/Clipboard.hpp
     ${QATERIAL_SOURCE_DIR}/Clipboard.cpp
     ${QATERIAL_SOURCE_DIR}/Version.hpp
@@ -44,28 +46,33 @@ add_library( qaterialplugin SHARED
     ${CMAKE_CURRENT_LIST_DIR}/qaterialplugin.cpp
 
 )
-set_property(TARGET qaterialplugin PROPERTY CXX_STANDARD 17)
-set_property(TARGET qaterialplugin PROPERTY AUTOMOC ON)
+set_property(TARGET ${QATERIAL_PLUGIN_TARGET} PROPERTY CXX_STANDARD 17)
+set_property(TARGET ${QATERIAL_PLUGIN_TARGET} PROPERTY AUTOMOC ON)
 # Version
-target_compile_definitions(qaterialplugin
+target_compile_definitions(${QATERIAL_PLUGIN_TARGET}
   PRIVATE -DQATERIAL_VERSION_MAJOR=${QATERIAL_VERSION_MAJOR}
   PRIVATE -DQATERIAL_VERSION_MINOR=${QATERIAL_VERSION_MINOR}
   PRIVATE -DQATERIAL_VERSION_PATCH=${QATERIAL_VERSION_PATCH}
   PRIVATE -DQATERIAL_VERSION_TAG=${QATERIAL_VERSION_TAG}
   PRIVATE -DQATERIAL_VERSION_TAG_HEX=${QATERIAL_VERSION_TAG_HEX}
 )
-#target_compile_definitions(qaterialplugin PRIVATE -DQATERIAL_STATIC) #-DNDEBUG
-target_compile_definitions(qaterialplugin PRIVATE -DQATERIAL_SHARED) #-DNDEBUG
-target_include_directories(qaterialplugin PUBLIC ${CMAKE_CURRENT_LIST_DIR} ${QATERIAL_HEADER_DIR})
+#target_compile_definitions(${QATERIAL_PLUGIN_TARGET} PRIVATE -DQATERIAL_STATIC) #-DNDEBUG
+target_compile_definitions(${QATERIAL_PLUGIN_TARGET} PRIVATE -DQATERIAL_SHARED) #-DNDEBUG
+target_include_directories(${QATERIAL_PLUGIN_TARGET} PUBLIC ${CMAKE_CURRENT_LIST_DIR} ${QATERIAL_HEADER_DIR} ${QATERIAL_ICONS_OUTPUT_FOLDER})
 target_compile_features(
-    qaterialplugin
+    ${QATERIAL_PLUGIN_TARGET}
     PRIVATE
         cxx_auto_type
         cxx_generic_lambdas
 )
-
-target_link_libraries( qaterialplugin PUBLIC
+target_link_libraries(${QATERIAL_PLUGIN_TARGET} PUBLIC
+  ${QATERIAL_TARGET}::Icons
+#  ${QATERIAL_TARGET}::Fonts
+#  ${QATERIAL_TARGET}::Components
+)
+target_link_libraries( ${QATERIAL_PLUGIN_TARGET} PUBLIC
   spdlog
+#  QOlm
   Qt::Core
   Qt::Gui
   Qt::Svg
@@ -78,14 +85,14 @@ target_link_libraries( qaterialplugin PUBLIC
 # During plugin searching Qt will be looking for 'qmldir' file
 # So we should place it next to our plugin lib.
 add_custom_command(
-    TARGET qaterialplugin
+    TARGET ${QATERIAL_PLUGIN_TARGET}
     POST_BUILD
     COMMAND
         ${CMAKE_COMMAND} -E copy
         ${CMAKE_CURRENT_LIST_DIR}/qmldir
-        $<TARGET_FILE_DIR:qaterialplugin>/qmldir
+        $<TARGET_FILE_DIR:${QATERIAL_PLUGIN_TARGET}>/qmldir
     COMMAND
-        cd $<TARGET_FILE_DIR:qaterialplugin>/.. &&
+        cd $<TARGET_FILE_DIR:${QATERIAL_PLUGIN_TARGET}>/.. &&
         ${QT_BIN}/qmlplugindump -nonrelocatable Qaterial 1.0 . > Qaterial/plugin.qmltypes
 
 )
