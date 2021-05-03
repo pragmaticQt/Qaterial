@@ -42,8 +42,8 @@ add_library( ${QATERIAL_PLUGIN_TARGET} SHARED
     ${QATERIAL_SOURCE_DIR}/TextFile.hpp
     ${QATERIAL_SOURCE_DIR}/TextFile.cpp
 
-    ${CMAKE_CURRENT_LIST_DIR}/qaterialplugin.h
-    ${CMAKE_CURRENT_LIST_DIR}/qaterialplugin.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/qaterialplugin.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/qaterialplugin.cpp
 
 )
 set_property(TARGET ${QATERIAL_PLUGIN_TARGET} PROPERTY CXX_STANDARD 17)
@@ -58,7 +58,7 @@ target_compile_definitions(${QATERIAL_PLUGIN_TARGET}
 )
 #target_compile_definitions(${QATERIAL_PLUGIN_TARGET} PRIVATE -DQATERIAL_STATIC) #-DNDEBUG
 target_compile_definitions(${QATERIAL_PLUGIN_TARGET} PRIVATE -DQATERIAL_SHARED) #-DNDEBUG
-target_include_directories(${QATERIAL_PLUGIN_TARGET} PUBLIC ${CMAKE_CURRENT_LIST_DIR} ${QATERIAL_HEADER_DIR} ${QATERIAL_ICONS_OUTPUT_FOLDER})
+target_include_directories(${QATERIAL_PLUGIN_TARGET} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${QATERIAL_HEADER_DIR} ${QATERIAL_ICONS_OUTPUT_FOLDER})
 target_compile_features(
     ${QATERIAL_PLUGIN_TARGET}
     PRIVATE
@@ -87,13 +87,25 @@ target_link_libraries( ${QATERIAL_PLUGIN_TARGET} PUBLIC
 add_custom_command(
     TARGET ${QATERIAL_PLUGIN_TARGET}
     POST_BUILD
-    COMMAND
-        ${CMAKE_COMMAND} -E copy
-        ${CMAKE_CURRENT_LIST_DIR}/qmldir
-        $<TARGET_FILE_DIR:${QATERIAL_PLUGIN_TARGET}>/qmldir
+
     COMMAND
         cd $<TARGET_FILE_DIR:${QATERIAL_PLUGIN_TARGET}>/.. &&
         ${QT_BIN}/qmlplugindump -nonrelocatable Qaterial 1.0 . > Qaterial/plugin.qmltypes
 
 )
 
+file(READ ${CMAKE_CURRENT_SOURCE_DIR}/qmldir header)
+file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/qmldir ${header})
+
+set(QATERIAL_QML_DIR ${QATERIAL_ROOT_DIR}/qml/Qaterial)
+
+file(READ ${QATERIAL_QML_DIR}/qmldir body)
+string(REPLACE "module Qaterial" "" body "${body}")
+file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/qmldir ${body})
+
+set(GLOB_EXPRESSION "${QATERIAL_QML_DIR}/*.qml")
+file(GLOB QML_FILES ${GLOB_EXPRESSION})
+message(${CMAKE_CURRENT_BINARY_DIR})
+foreach(QML_FILE ${QML_FILES})
+    file(COPY ${QML_FILE} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+endforeach()

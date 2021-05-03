@@ -4,7 +4,7 @@ find_package(Qt5 REQUIRED COMPONENTS
   Qml
 )
 # Telling CMake location of our app .qrc file
-qt5_add_resources(APP_RESOURCES ${CMAKE_CURRENT_LIST_DIR}/src/qml/app.qrc)
+qt5_add_resources(APP_RESOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/qml/app.qrc)
 
 # We're using ${PROJECT_NAME} for target name but it's not necessary
 add_executable(

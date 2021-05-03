@@ -14,11 +14,23 @@ ApplicationWindow {
         Qaterial.Logger.info("Qml: version is " + Qaterial.Version.readable)
         Qaterial.Logger.debug("Qml: " + "Component.onCompleted")
     }
+
     Grid {
         anchors.fill: parent
-        columns: 5
+        columns: 2
+
         Image {
             source: Qaterial.Icons.heart
+        }
+
+        Qaterial.AMaterialColorPaletteGrid {
+            id: aMaterialColorPaletteGrid
+            onAccepted: alertDialog.open()
+        }
+
+        Qaterial.AlertDialog {
+            id: alertDialog
+            title: qsTr("Qaterial Alert Dialog")
         }
 
         Text {
