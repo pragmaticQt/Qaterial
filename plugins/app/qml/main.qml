@@ -14,37 +14,26 @@ ApplicationWindow {
     Component.onCompleted: {
         Qaterial.Logger.info("Qml: version is " + Qaterial.Version.readable)
         Qaterial.Logger.debug("Qml: " + "Component.onCompleted")
-    }
 
-//    FontLoader { id: webFont; source: Qt.resolvedUrl(":/Qaterial/Fonts/Lato/Lato-Regular.ttf") }
+        if (Qaterial.Fonts.ready) {
+            loader.setSource( Qt.resolvedUrl("qrc:/TextUsingQaterialFonts.qml"),
+                             {"font.family": Qaterial.Fonts.robotoMonoRegular, "text": "some text"} )
+        }
+    }
 
     Grid {
         anchors.fill: parent
         columns: 2
 
-
-        Text {
-            font.pointSize: 20
-            text: "Lato-Regular font";
-            font.family: Qaterial.Fonts.latoRegular
-        }
-        Text {
-            font.pointSize: 20
-            text: "Roboto-Medium font";
-            font.family: Qaterial.Fonts.robotoMedium
-        }
-        Text {
-            font.pointSize: 20
-            text: "Roboto-Regular font";
-            font.family: Qaterial.Fonts.robotoRegular
-        }
-        Text {
-            font.pointSize: 20
-            text: "robotoMono-Regular font";
-            font.family: Qaterial.Fonts.robotoMonoRegular
+        TextUsingQaterialFonts {
+            text: "some text"
         }
 
-        Qaterial.Button {
+        Loader {
+            id: loader
+        }
+
+        Qaterial.TextField {
             drawline: true //background in aquamarine and outline in pink
         }
 

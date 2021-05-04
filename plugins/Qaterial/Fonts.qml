@@ -6,7 +6,10 @@ Item {
     readonly property alias robotoMedium:      robotoMedium.name
     readonly property alias robotoRegular:     robotoRegular.name
     readonly property alias robotoMonoRegular: robotoMonoRegular.name
-
+    readonly property bool  ready: latoRegular.status       === FontLoader.Ready &&
+                                   robotoMedium.status      === FontLoader.Ready &&
+                                   robotoRegular.status     === FontLoader.Ready &&
+                                   robotoMonoRegular.status === FontLoader.Ready
     FontLoader {
         id: latoRegular
         source: Qt.resolvedUrl("qrc:/Qaterial/Fonts/Lato/Lato-Regular.ttf")
