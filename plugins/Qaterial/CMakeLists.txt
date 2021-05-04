@@ -107,6 +107,10 @@ file(READ ${QATERIAL_QML_DIR}/qmldir body)
 string(REPLACE "module Qaterial" "" body "${body}")
 file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/qmldir ${body})
 
+# copy Fonts.qml and append it to qmldir
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/Fonts.qml DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/qmldir "singleton Fonts 1.0 Fonts.qml")
+
 # copy all qml files
 set(GLOB_EXPRESSION "${QATERIAL_QML_DIR}/*.qml")
 file(GLOB QML_FILES ${GLOB_EXPRESSION})

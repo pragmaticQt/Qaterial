@@ -47,31 +47,8 @@ void QaterialPlugin::registerTypes(const char* uri) {
     __Qaterial_registerIconsSingleton();
 }
 
-static void Qaterial_loadFonts()
-{
-    const auto loadFont = [](const QString& fontFolderPath)
-    {
-        const QDir dir(fontFolderPath);
-        for(const auto& file: dir.entryList(QDir::Files))
-        {
-            const auto fileUrl = fontFolderPath + "/" + file;
-            if(QFontDatabase::addApplicationFont(fileUrl) >= 0)
-                qInfo() << "Load font" << fileUrl.toStdString().c_str();
-            else
-                qCritical() << "Fail to load font" << fileUrl.toStdString().c_str();
-        }
-    };
-
-    const QDir fontsDirectory(":/Qaterial/Fonts");
-    for(const auto& fontDir: fontsDirectory.entryList(QDir::Dirs | QDir::NoDotAndDotDot))
-    {
-        const auto fontDirPath = fontsDirectory.path() + "/" + fontDir;
-        loadFont(fontDirPath);
-    }
-}
 static void initFonts() {
     Q_INIT_RESOURCE(QaterialFonts);
-    Qaterial_loadFonts();
 }
 
 static void initIcons() {
