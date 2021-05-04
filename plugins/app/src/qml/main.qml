@@ -15,9 +15,17 @@ ApplicationWindow {
         Qaterial.Logger.debug("Qml: " + "Component.onCompleted")
     }
 
+    FontLoader { id: webFont; source: Qt.resolvedUrl(":/Qaterial/Fonts/Lato/Lato-Regular.ttf") }
+
     Grid {
         anchors.fill: parent
         columns: 2
+
+        Text { text: "Lato-Regular font"; font.family: webFont.name }
+
+        Qaterial.RawMaterialButton {
+            drawline: true //background in aquamarine and outline in pink
+        }
 
         Image {
             source: Qaterial.Icons.heart

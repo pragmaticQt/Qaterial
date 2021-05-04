@@ -17,6 +17,12 @@
 #include "Qaterial/TextFile.hpp"
 #include "Qaterial/Logger.hpp"
 
+#include <QDir>
+#include <QFontDatabase>
+#include <QtDebug>
+
+//#include "Qaterial/Utils.hpp"
+
 void __Qaterial_registerIconsSingleton();//auto generate
 
 void QaterialPlugin::registerTypes(const char* uri) {
@@ -41,8 +47,40 @@ void QaterialPlugin::registerTypes(const char* uri) {
     __Qaterial_registerIconsSingleton();
 }
 
-static void initResources() {
+static void Qaterial_loadFonts()
+{
+    const auto loadFont = [](const QString& fontFolderPath)
+    {
+        const QDir dir(fontFolderPath);
+        for(const auto& file: dir.entryList(QDir::Files))
+        {
+            const auto fileUrl = fontFolderPath + "/" + file;
+            if(QFontDatabase::addApplicationFont(fileUrl) >= 0)
+                qInfo() << "Load font" << fileUrl.toStdString().c_str();
+            else
+                qCritical() << "Fail to load font" << fileUrl.toStdString().c_str();
+        }
+    };
+
+    const QDir fontsDirectory(":/Qaterial/Fonts");
+    for(const auto& fontDir: fontsDirectory.entryList(QDir::Dirs | QDir::NoDotAndDotDot))
+    {
+        const auto fontDirPath = fontsDirectory.path() + "/" + fontDir;
+        loadFont(fontDirPath);
+    }
+}
+static void initFonts() {
+    Q_INIT_RESOURCE(QaterialFonts);
+    Qaterial_loadFonts();
+}
+
+static void initIcons() {
     Q_INIT_RESOURCE(QaterialIcons);
+}
+
+static void initResources() {
+    initFonts();
+    initIcons();
 }
 
 static void registerCoutSink()
@@ -57,5 +95,7 @@ static void registerCoutSink()
     qaterial::Logger::QATERIAL->set_level(spdlog::level::debug);
 }
 
-Q_COREAPP_STARTUP_FUNCTION(initResources)
+#ifndef QATERIAL_STATIC
 Q_COREAPP_STARTUP_FUNCTION(registerCoutSink)
+Q_COREAPP_STARTUP_FUNCTION(initResources)
+#endif

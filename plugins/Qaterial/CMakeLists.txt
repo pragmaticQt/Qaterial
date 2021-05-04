@@ -42,6 +42,9 @@ add_library( ${QATERIAL_PLUGIN_TARGET} SHARED
     ${QATERIAL_SOURCE_DIR}/TextFile.hpp
     ${QATERIAL_SOURCE_DIR}/TextFile.cpp
 
+#    ${QATERIAL_SOURCE_DIR}/Utils.hpp
+#    ${QATERIAL_SOURCE_DIR}/Utils.cpp
+
     ${CMAKE_CURRENT_SOURCE_DIR}/qaterialplugin.h
     ${CMAKE_CURRENT_SOURCE_DIR}/qaterialplugin.cpp
 
@@ -67,7 +70,7 @@ target_compile_features(
 )
 target_link_libraries(${QATERIAL_PLUGIN_TARGET} PUBLIC
   ${QATERIAL_TARGET}::Icons
-#  ${QATERIAL_TARGET}::Fonts
+  ${QATERIAL_TARGET}::Fonts
 #  ${QATERIAL_TARGET}::Components
 )
 target_link_libraries( ${QATERIAL_PLUGIN_TARGET} PUBLIC
@@ -94,6 +97,7 @@ add_custom_command(
 
 )
 
+# merge 2 qmldirs
 file(READ ${CMAKE_CURRENT_SOURCE_DIR}/qmldir header)
 file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/qmldir ${header})
 
@@ -103,6 +107,7 @@ file(READ ${QATERIAL_QML_DIR}/qmldir body)
 string(REPLACE "module Qaterial" "" body "${body}")
 file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/qmldir ${body})
 
+# copy all qml files
 set(GLOB_EXPRESSION "${QATERIAL_QML_DIR}/*.qml")
 file(GLOB QML_FILES ${GLOB_EXPRESSION})
 message(${CMAKE_CURRENT_BINARY_DIR})
