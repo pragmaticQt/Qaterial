@@ -1,33 +1,42 @@
 pragma Singleton
 import QtQuick 2.15
 
-Item {
-    readonly property alias latoRegular:       latoRegular.name
-    readonly property alias robotoMedium:      robotoMedium.name
-    readonly property alias robotoRegular:     robotoRegular.name
-    readonly property alias robotoMonoRegular: robotoMonoRegular.name
-    readonly property bool  ready: latoRegular.status       === FontLoader.Ready &&
-                                   robotoMedium.status      === FontLoader.Ready &&
-                                   robotoRegular.status     === FontLoader.Ready &&
-                                   robotoMonoRegular.status === FontLoader.Ready
-    FontLoader {
-        id: latoRegular
-        source: Qt.resolvedUrl("qrc:/Qaterial/Fonts/Lato/Lato-Regular.ttf")
+FontLoader {
+    id: fontLoader
+
+    enum FontType {
+        LatoRegular,
+        RobotoMedium,
+        RobotoRegular,
+        RobotoMonoRegular
     }
 
-    FontLoader {
-        id: robotoMedium
-        source: Qt.resolvedUrl("qrc:/Qaterial/Fonts/Roboto/Roboto-Medium.ttf")
+    readonly property alias fontFamily: fontLoader.name
+
+    readonly property bool  ready: fontLoader.status === FontLoader.Ready
+
+    signal loaded()
+
+    function load(font) {
+//        console.info(_fonts.get(font))
+        if (_fonts.has(font))
+            fontLoader.source = Qt.resolvedUrl(_fonts.get(font))
+        else
+            fontLoader.source = ""
     }
 
-    FontLoader {
-        id: robotoRegular
-        source: Qt.resolvedUrl("qrc:/Qaterial/Fonts/Roboto/Roboto-Regular.ttf")
+    onStatusChanged: {
+//        console.info(status)
+        if (status === FontLoader.Ready) {
+            fontLoader.loaded()
+        }
     }
 
-    FontLoader {
-        id: robotoMonoRegular
-        source: Qt.resolvedUrl("qrc:/Qaterial/Fonts/RobotoMono/RobotoMono-Regular.ttf")
-    }        
+    readonly property var _fonts: (new Map([
+            [Fonts.LatoRegular,       "qrc:/Qaterial/Fonts/Lato/Lato-Regular.ttf"],
+            [Fonts.RobotoMedium,      "qrc:/Qaterial/Fonts/Roboto/Roboto-Medium.ttf"],
+            [Fonts.RobotoRegular,     "qrc:/Qaterial/Fonts/Roboto/Roboto-Regular.ttf"],
+            [Fonts.RobotoMonoRegular, "qrc:/Qaterial/Fonts/RobotoMono/RobotoMono-Regular.ttf"]
+    ]))
 
 }

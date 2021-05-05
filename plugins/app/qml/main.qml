@@ -15,9 +15,14 @@ ApplicationWindow {
         Qaterial.Logger.info("Qml: version is " + Qaterial.Version.readable)
         Qaterial.Logger.debug("Qml: " + "Component.onCompleted")
 
-        if (Qaterial.Fonts.ready) {
+        Qaterial.Fonts.load(Qaterial.Fonts.LatoRegular)
+    }
+
+    Connections {
+        target: Qaterial.Fonts
+        function onLoaded() {
             loader.setSource( Qt.resolvedUrl("qrc:/TextUsingQaterialFonts.qml"),
-                             {"font.family": Qaterial.Fonts.robotoMonoRegular, "text": "some text"} )
+                             {"font.family": Qaterial.Fonts.fontFamily, "text": "some text"} )
         }
     }
 
