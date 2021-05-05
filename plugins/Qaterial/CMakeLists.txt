@@ -35,12 +35,20 @@ add_library( ${QATERIAL_PLUGIN_TARGET} SHARED
 
     ${QATERIAL_SOURCE_DIR}/Logger.hpp
     ${QATERIAL_SOURCE_DIR}/Logger.cpp
-    ${QATERIAL_SOURCE_DIR}/Clipboard.hpp
-    ${QATERIAL_SOURCE_DIR}/Clipboard.cpp
     ${QATERIAL_SOURCE_DIR}/Version.hpp
     ${QATERIAL_SOURCE_DIR}/Version.cpp
+
+    ${QATERIAL_SOURCE_DIR}/Clipboard.hpp
+    ${QATERIAL_SOURCE_DIR}/Clipboard.cpp
     ${QATERIAL_SOURCE_DIR}/TextFile.hpp
     ${QATERIAL_SOURCE_DIR}/TextFile.cpp
+    ${QATERIAL_SOURCE_DIR}/FolderTreeModel.hpp
+    ${QATERIAL_SOURCE_DIR}/FolderTreeModel.cpp
+
+    ${QATERIAL_SOURCE_DIR}/StepperElement.hpp
+    ${QATERIAL_SOURCE_DIR}/StepperElement.cpp
+    ${QATERIAL_SOURCE_DIR}/TreeElement.hpp
+    ${QATERIAL_SOURCE_DIR}/TreeElement.cpp
 
 #    ${QATERIAL_SOURCE_DIR}/Utils.hpp
 #    ${QATERIAL_SOURCE_DIR}/Utils.cpp
@@ -75,7 +83,7 @@ target_link_libraries(${QATERIAL_PLUGIN_TARGET} PUBLIC
 )
 target_link_libraries( ${QATERIAL_PLUGIN_TARGET} PUBLIC
   spdlog
-#  QOlm
+  QOlm
   Qt::Core
   Qt::Gui
   Qt::Svg

@@ -13,9 +13,13 @@
 #include "Qaterial/Layout.hpp"
 
 #include "Qaterial/Clipboard.hpp"
-#include "Qaterial/Version.hpp"
-#include "Qaterial/TextFile.hpp"
 #include "Qaterial/Logger.hpp"
+#include "Qaterial/TextFile.hpp"
+#include "Qaterial/Version.hpp"
+
+#include "Qaterial/StepperElement.hpp"
+#include "Qaterial/TreeElement.hpp"
+#include "Qaterial/FolderTreeModel.hpp"
 
 #include <QDir>
 #include <QFontDatabase>
@@ -36,6 +40,12 @@ void QaterialPlugin::registerTypes(const char* uri) {
     qaterial::ColorTheme           ::registerToQml();
     qaterial::TextTheme            ::registerToQml();
     qaterial::Theme                ::registerToQml();
+
+    qaterial::StepperElement       ::registerToQml();
+    qaterial::StepperModel         ::registerToQml();
+    qaterial::TreeElement          ::registerToQml();
+    qaterial::TreeModel            ::registerToQml();
+    qaterial::FolderTreeModel      ::registerToQml();
 
     qaterial::Layout               ::registerToQml();
     qaterial::TextFile             ::registerToQml();
@@ -60,7 +70,7 @@ static void initResources() {
     initIcons();
 }
 
-static void registerCoutSink()
+static void registerStdoutSink()
 {
     // Create a stdout sink
     const auto stdoutSink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
@@ -73,6 +83,6 @@ static void registerCoutSink()
 }
 
 #ifndef QATERIAL_STATIC
-Q_COREAPP_STARTUP_FUNCTION(registerCoutSink)
+Q_COREAPP_STARTUP_FUNCTION(registerStdoutSink)
 Q_COREAPP_STARTUP_FUNCTION(initResources)
 #endif

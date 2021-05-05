@@ -28,6 +28,7 @@
 // Library Headers
 #include <Qaterial/Export.hpp>
 #include <Qaterial/Property.hpp>
+#include <QOlm/QOlm.hpp>
 
 // Dependencies Headers
 #include <QObject>
@@ -54,6 +55,20 @@ public:
     QATERIAL_PROPERTY(bool, optional, Optional);
     QATERIAL_PROPERTY(QString, alertMessage, AlertMessage);
     QATERIAL_PROPERTY(QString, supportingText, SupportingText);
+};
+
+
+class QATERIAL_API_ StepperModel : public qolm::QOlm<StepperElement>
+{
+    Q_OBJECT
+    QATERIAL_REGISTER_TO_QML(StepperModel)
+public:
+    StepperModel(QObject* parent = nullptr,
+        const QList<QByteArray> & exposedRoles = {},
+        const QByteArray & displayRole = {}):
+        qolm::QOlm<StepperElement>(parent, exposedRoles, displayRole)
+    {
+    }
 };
 
 }

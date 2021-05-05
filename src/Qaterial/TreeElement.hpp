@@ -41,8 +41,22 @@
 namespace qaterial {
 
 // ──── CLASS ────
+class TreeElement;
 
-using TreeModel = qolm::QOlm<class TreeElement>;
+//using TreeModel = qolm::QOlm<class TreeElement>;
+class QATERIAL_API_ TreeModel : public qolm::QOlm<TreeElement>
+{
+    Q_OBJECT
+    QATERIAL_REGISTER_TO_QML(TreeModel)
+
+public:
+    TreeModel(QObject* parent = nullptr,
+        const QList<QByteArray> & exposedRoles = {},
+        const QByteArray & displayRole = {}):
+        qolm::QOlm<TreeElement>(parent, exposedRoles, displayRole)
+    {
+    }
+};
 
 class QATERIAL_API_ TreeElement : public TreeModel
 {
