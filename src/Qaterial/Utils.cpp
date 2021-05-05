@@ -135,12 +135,12 @@ static void Qaterial_registerTypes()
     LOG_DEV_INFO("Register {}.StepperElement {}.{} to QML", *_uri, _major, _minor);
     qaterial::StepperElement::registerToQml(*_uri, _major, _minor);
     LOG_DEV_INFO("Register {}.StepperModel {}.{} to QML", *_uri, _major, _minor);
-    qmlRegisterType<qolm::QOlm<qaterial::StepperElement>>(*_uri, _major, _minor, "StepperModel");
+    qaterial::TreeModel::registerToQml(*_uri, _major, _minor, "StepperModel");
 
     LOG_DEV_INFO("Register {}.TreeElement {}.{} to QML", *_uri, _major, _minor);
     qaterial::TreeElement::registerToQml(*_uri, _major, _minor);
     LOG_DEV_INFO("Register {}.StepperModel {}.{} to QML", *_uri, _major, _minor);
-    qmlRegisterType<qaterial::TreeModel>(*_uri, _major, _minor, "TreeModel");
+    qaterial::TreeModel::registerToQml(*_uri, _major, _minor);
 
     // IO
 
