@@ -12,8 +12,11 @@ message(STATUS "QT_BIN                     : ${QT_BIN}")
 
 message(STATUS "------ plugin End Configuration ------")
 
+qt5_add_resources(PLUGIN_RESOURCES ${CMAKE_CURRENT_SOURCE_DIR}/resource.qrc)
 
 add_library( ${QATERIAL_PLUGIN_TARGET} SHARED
+    ${PLUGIN_RESOURCES}
+
     ${QATERIAL_ICONS_CLASS_FILE}
     ${QATERIAL_ICONS_SRC_FILE}
     ${QATERIAL_SOURCE_DIR}/IconDescription.hpp
@@ -103,26 +106,10 @@ add_custom_command(
         cd $<TARGET_FILE_DIR:${QATERIAL_PLUGIN_TARGET}>/.. &&
         ${QT_BIN}/qmlplugindump -nonrelocatable Qaterial 1.0 . > Qaterial/plugin.qmltypes
 
+    COMMAND
+        ${CMAKE_COMMAND} #--debug-output
+        -D SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}
+        -D DST_DIR=${CMAKE_CURRENT_BINARY_DIR}
+        -D QML_DIR=${QATERIAL_ROOT_DIR}/qml/Qaterial
+        -P ${CMAKE_CURRENT_SOURCE_DIR}/PostCmd.cmake
 )
-
-# merge 2 qmldirs
-file(READ ${CMAKE_CURRENT_SOURCE_DIR}/qmldir header)
-file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/qmldir ${header})
-
-set(QATERIAL_QML_DIR ${QATERIAL_ROOT_DIR}/qml/Qaterial)
-
-file(READ ${QATERIAL_QML_DIR}/qmldir body)
-string(REPLACE "module Qaterial" "" body "${body}")
-file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/qmldir ${body})
-
-# copy Fonts.qml and append it to qmldir
-file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/Fonts.qml DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
-file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/qmldir "singleton Fonts 1.0 Fonts.qml")
-
-# copy all qml files
-set(GLOB_EXPRESSION "${QATERIAL_QML_DIR}/*.qml")
-file(GLOB QML_FILES ${GLOB_EXPRESSION})
-message(${CMAKE_CURRENT_BINARY_DIR})
-foreach(QML_FILE ${QML_FILES})
-    file(COPY ${QML_FILE} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
-endforeach()
