@@ -96,6 +96,8 @@ target_link_libraries( ${QATERIAL_PLUGIN_TARGET} PUBLIC
   Qt::QuickControls2
 )
 
+# During plugin searching Qt will be looking for 'qmldir' file
+# So we should place it next to our plugin lib.
 add_custom_command(
     TARGET ${QATERIAL_PLUGIN_TARGET}
     PRE_BUILD
@@ -106,9 +108,8 @@ add_custom_command(
         $<TARGET_FILE_DIR:${QATERIAL_PLUGIN_TARGET}>/qmldir
 )
 
-# During plugin searching Qt will be looking for 'qmldir' file
-# So we should place it next to our plugin lib.
 IF (WIN32)
+
 add_custom_command(
     TARGET ${QATERIAL_PLUGIN_TARGET}
     POST_BUILD
@@ -125,6 +126,24 @@ add_custom_command(
         -D QML_DIR=${QATERIAL_ROOT_DIR}/qml/Qaterial
         -P ${CMAKE_CURRENT_SOURCE_DIR}/PostCmd.cmake
 )
+
 ELSE()
-#export PATH=$<TARGET_FILE_DIR:spdlog>:$<TARGET_FILE_DIR:QOlm>:$PATH &&
+
+add_custom_command(
+    TARGET ${QATERIAL_PLUGIN_TARGET}
+    POST_BUILD
+
+    COMMAND
+        cd $<TARGET_FILE_DIR:${QATERIAL_PLUGIN_TARGET}> &&
+        export PATH=$<TARGET_FILE_DIR:spdlog>:$<TARGET_FILE_DIR:QOlm>:$PATH &&
+        ${QT_BIN}/qmlplugindump -nonrelocatable Qaterial 1.0 .. > plugin.qmltypes
+
+    COMMAND
+        ${CMAKE_COMMAND} #--debug-output
+        -D SRC_DIR=${CMAKE_CURRENT_SOURCE_DIR}
+        -D DST_DIR=${CMAKE_CURRENT_BINARY_DIR}
+        -D QML_DIR=${QATERIAL_ROOT_DIR}/qml/Qaterial
+        -P ${CMAKE_CURRENT_SOURCE_DIR}/PostCmd.cmake
+)
+
 ENDIF()
