@@ -70,8 +70,8 @@ target_compile_definitions(${QATERIAL_PLUGIN_TARGET}
   PRIVATE -DQATERIAL_VERSION_TAG=${QATERIAL_VERSION_TAG}
   PRIVATE -DQATERIAL_VERSION_TAG_HEX=${QATERIAL_VERSION_TAG_HEX}
 )
-#target_compile_definitions(${QATERIAL_PLUGIN_TARGET} PRIVATE -DQATERIAL_STATIC) #-DNDEBUG
-target_compile_definitions(${QATERIAL_PLUGIN_TARGET} PRIVATE -DQATERIAL_SHARED) #-DNDEBUG
+target_compile_definitions(${QATERIAL_PLUGIN_TARGET} PRIVATE -DQATERIAL_STATIC) #-DNDEBUG
+#target_compile_definitions(${QATERIAL_PLUGIN_TARGET} PRIVATE -DQATERIAL_SHARED) #-DNDEBUG
 target_include_directories(${QATERIAL_PLUGIN_TARGET} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${QATERIAL_HEADER_DIR} ${QATERIAL_ICONS_OUTPUT_FOLDER})
 target_compile_features(
     ${QATERIAL_PLUGIN_TARGET}
@@ -96,15 +96,27 @@ target_link_libraries( ${QATERIAL_PLUGIN_TARGET} PUBLIC
   Qt::QuickControls2
 )
 
+add_custom_command(
+    TARGET ${QATERIAL_PLUGIN_TARGET}
+    PRE_BUILD
+
+    COMMAND
+        ${CMAKE_COMMAND} -E copy
+        ${CMAKE_CURRENT_SOURCE_DIR}/qmldir
+        $<TARGET_FILE_DIR:${QATERIAL_PLUGIN_TARGET}>/qmldir
+)
+
 # During plugin searching Qt will be looking for 'qmldir' file
 # So we should place it next to our plugin lib.
+IF (WIN32)
 add_custom_command(
     TARGET ${QATERIAL_PLUGIN_TARGET}
     POST_BUILD
 
     COMMAND
-        cd $<TARGET_FILE_DIR:${QATERIAL_PLUGIN_TARGET}>/.. &&
-        ${QT_BIN}/qmlplugindump -nonrelocatable Qaterial 1.0 . > Qaterial/plugin.qmltypes
+        cd $<TARGET_FILE_DIR:${QATERIAL_PLUGIN_TARGET}> &&
+        set Path=$<TARGET_FILE_DIR:spdlog>\;$<TARGET_FILE_DIR:QOlm>\;%Path% &&
+        ${QT_BIN}/qmlplugindump -nonrelocatable Qaterial 1.0 .. > plugin.qmltypes
 
     COMMAND
         ${CMAKE_COMMAND} #--debug-output
@@ -113,3 +125,6 @@ add_custom_command(
         -D QML_DIR=${QATERIAL_ROOT_DIR}/qml/Qaterial
         -P ${CMAKE_CURRENT_SOURCE_DIR}/PostCmd.cmake
 )
+ELSE()
+#export PATH=$<TARGET_FILE_DIR:spdlog>:$<TARGET_FILE_DIR:QOlm>:$PATH &&
+ENDIF()

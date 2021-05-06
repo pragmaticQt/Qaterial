@@ -82,7 +82,7 @@ static void registerStdoutSink()
     qaterial::Logger::QATERIAL->set_level(spdlog::level::debug);
 }
 
-#ifndef QATERIAL_STATIC
+//#ifndef QATERIAL_STATIC
 Q_COREAPP_STARTUP_FUNCTION(registerStdoutSink)
 Q_COREAPP_STARTUP_FUNCTION(initResources)
-#endif
+//#endif

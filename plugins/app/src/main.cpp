@@ -1,7 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 
-#include "Qaterial/Logger.hpp"
+//#include "Qaterial/Logger.hpp"
 
 int main(int argc, char *argv[]) {
 #if defined(Q_OS_WIN)
@@ -10,12 +10,12 @@ int main(int argc, char *argv[]) {
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
 
-    qaterial::Logger::logger().info("C++: Logger ready!");
+//    qaterial::Logger::logger().info("C++: Logger ready!");
 
     // Add import search path
     engine.addImportPath(QCoreApplication::applicationDirPath()+"/..");
 
-    qaterial::Logger::logger().debug("C++: engine addImportPath!");
+//    qaterial::Logger::logger().debug("C++: engine addImportPath!");
 
     engine.load(QUrl(QLatin1String("qrc:/main.qml")));
     if (engine.rootObjects().isEmpty()) {
