@@ -59,20 +59,20 @@ public:
             horizontalAlignmentChanged);
     Q_PROPERTY(Qt::Alignment verticalAlignment READ verticalAlignment WRITE setVerticalAlignment RESET resetVerticalAlignment NOTIFY
             verticalAlignmentChanged);
-    Q_PROPERTY(IconLabelPositionner::Display display READ display WRITE setDisplay RESET resetDisplay NOTIFY displayChanged);
+    Q_PROPERTY(int display READ display WRITE setDisplay RESET resetDisplay NOTIFY displayChanged);
     Q_PROPERTY(qreal spacing READ spacing WRITE setSpacing RESET resetSpacing NOTIFY spacingChanged);
     Q_PROPERTY(bool mirrored READ mirrored WRITE setMirrored RESET resetMirrored NOTIFY mirroredChanged);
 
 public:
     Qt::Alignment horizontalAlignment() const { return _positionner->horizontalAlignment(); }
     Qt::Alignment verticalAlignment() const { return _positionner->verticalAlignment(); }
-    IconLabelPositionner::Display display() const { return _positionner->display(); }
+    int display() const { return _positionner->display(); }
     qreal spacing() const { return _positionner->spacing(); }
     bool mirrored() const { return _positionner->mirrored(); }
 
     void setHorizontalAlignment(const Qt::Alignment& value) const { _positionner->setHorizontalAlignment(value); }
     void setVerticalAlignment(const Qt::Alignment& value) const { _positionner->setVerticalAlignment(value); }
-    void setDisplay(const IconLabelPositionner::Display& value) const { _positionner->setDisplay(IconLabelPositionner::Display(value)); }
+    void setDisplay(const int& value) const { _positionner->setDisplay(IconLabelPositionner::Display(value)); }
     void setSpacing(const qreal& value) const { _positionner->setSpacing(value); }
     void setMirrored(const bool& value) const { _positionner->setMirrored(value); }
 
@@ -85,7 +85,7 @@ public:
 Q_SIGNALS:
     void horizontalAlignmentChanged(const Qt::Alignment& value);
     void verticalAlignmentChanged(const Qt::Alignment& value);
-    void displayChanged(const IconLabelPositionner::Display& value);
+    void displayChanged(const int& value);
     void spacingChanged(const qreal& value);
     void mirroredChanged(const bool& value);
 

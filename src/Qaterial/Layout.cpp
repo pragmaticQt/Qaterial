@@ -196,9 +196,9 @@ void Layout::resetItemsSize()
 void Layout::evaluateType()
 {
     if(flowIsLeftToRight())
-        setType((LayoutBreakpoint)sizeToType(width()));
+        setType(sizeToType(width()));
     else if(flowIsTopToBottom())
-        setType((LayoutBreakpoint)sizeToType(height()));
+        setType(sizeToType(height()));
 }
 
 void Layout::doForeachItem(const std::function<void(QQuickItem*)>& callback)
